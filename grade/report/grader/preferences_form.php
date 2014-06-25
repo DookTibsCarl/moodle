@@ -114,6 +114,7 @@ class grader_report_preferences_form extends moodleform {
 
             if ($canviewhidden) {
                 $preferences['prefrows']['shownumberofgrades'] = $checkbox_default;
+                $preferences['prefshow']['showparticipantemails'] = $checkbox_default;
             }
 
             $advanced = array_merge($advanced, array('aggregationposition'));

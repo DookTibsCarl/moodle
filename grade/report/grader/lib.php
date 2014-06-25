@@ -584,6 +584,17 @@ class grade_report_grader extends grade_report {
 
         $extrafields = get_extra_user_fields($this->context);
 
+        // if the "showparticipantemails" preference (defaulted under <Site Admin | Grades | Report Settings | Grader Report> and
+        // optionally overridden under <COURSE | Grade Administration | My Report Preferences | Grader Report>) isn't set, we remove
+        // the "email" field from extrafields if it was there. Depending on <Users | Permissions | User policies | Show user identity>,
+        // email may not be in the extrafields array in the first place.
+        if (! $this->get_pref('showparticipantemails')) {
+            $emailPos = array_search("email", $extrafields);
+            if ($emailPos !== false) {
+                array_splice($extrafields, $emailPos, 1);
+            }
+        }
+
         $arrows = $this->get_sort_arrows($extrafields);
 
         $colspan = 1;
