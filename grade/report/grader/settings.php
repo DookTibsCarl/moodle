@@ -115,4 +115,9 @@ if ($ADMIN->fulltree) {
                                                      '4' => '4',
                                                      '5' => '5')));
 
+    $settings->add(new admin_setting_configcheckbox('grade_report_showparticipantemails',
+                                                    get_string('showparticipantemailsingraderreport', 'grades'),
+                                                    get_string('showparticipantemailsingraderreport_help', 'grades'),
+                                                    1));
+
 }

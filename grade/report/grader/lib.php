@@ -584,6 +584,14 @@ class grade_report_grader extends grade_report {
 
         $extrafields = get_extra_user_fields($this->context);
 
+        // Email address, if configured to be part of user identity, is shown/hidden based on the "showparticipantemails" setting.
+        if (! $this->get_pref('showparticipantemails')) {
+            $emailpos = array_search("email", $extrafields);
+            if ($emailpos !== false) {
+                array_splice($extrafields, $emailpos, 1);
+            }
+        }
+
         $arrows = $this->get_sort_arrows($extrafields);
 
         $colspan = 1;
