@@ -3260,12 +3260,16 @@ class calendar_authtoken_generator {
 
         switch ($generationmethod) {
             case CALENDAR_AUTHTOKEN_METHOD_USERNAME_ONLY:
-                return self::generate_calendar_authtoken_username_only($userdata);
+                $authtoken = self::generate_calendar_authtoken_username_only($userdata);
+                break;
 
             case CALENDAR_AUTHTOKEN_METHOD_DEFAULT:
             default:
-                return self::generate_calendar_authtoken_default($userdata);
+                $authtoken = self::generate_calendar_authtoken_default($userdata);
+                break;
         }
+
+        return $authtoken;
     }
 
     /**
