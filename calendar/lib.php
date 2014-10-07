@@ -2928,7 +2928,24 @@ function calendar_add_icalendar_event($event, $courseid, $subscriptionid, $timez
             $timezone;
     $eventrecord->timestart = strtotime($event->properties['DTSTART'][0]->value . ' ' . $tz);
     if (empty($event->properties['DTEND'])) {
-        $eventrecord->timeduration = 3600; // one hour if no end time specified
+        if (!empty($event->properties['DURATION'])) {
+            $duration = $event->properties['DURATION'][0]; // Bennu iCalendar_property_duration object.
+            if ($duration->is_valid_value($duration->value)) {
+                $interval = new DateInterval($duration->value);
+
+                $comparisondate = new DateTime();
+                $startstamp = $comparisondate->getTimestamp();
+
+                $comparisondate->add($interval);
+                $endstamp = $comparisondate->getTimestamp();
+
+                $eventrecord->timeduration = $endstamp - $startstamp;
+            }
+        }
+
+        if (!isset($eventrecord->timeduration)) {
+            $eventrecord->timeduration = 3600; // One hour if no end time specified.
+        }
     } else {
         $endtz = isset($event->properties['DTEND'][0]->parameters['TZID']) ? $event->properties['DTEND'][0]->parameters['TZID'] :
                 $timezone;
